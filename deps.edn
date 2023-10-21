@@ -320,11 +320,9 @@
   :project/create-local
   {:replace-deps {io.github.seancorfield/deps-new
                   {:git/tag "v0.5.3" :git/sha "c899135"}
-                  practicalli/project-templates
-                  {:local/root "/home/practicalli/projects/practicalli/project-templates/"}}
-   :exec-fn      org.corfield.new/create
-   :exec-args    {:template practicalli/minimal
-                  :name practicalli/playground}}
+                  io.github.zikajk/templates
+                  {:local/root "/Users/akiz/Code/Clojure/templates"}}
+   :exec-fn      org.corfield.new/create}
 
   :project/templates
   {:extra-deps {io.github.practicalli/project-templates
