@@ -19,8 +19,6 @@
   ;;
   ;; Rebel Readline, ClojureScript and Figwheel experiements
 
-
-
   ;; ClojureScript REPL with basic UI (rlwrap)
   ;; clojure -M:repl/cljs
   ;; - use with figwheel alias in figwheel-main template project
@@ -47,12 +45,6 @@
    ["-m" "nrepl.cmdline"
     "--middleware" "[cider.nrepl/cider-middleware,cider.piggieback/wrap-cljs-repl]"]}
 
-
-
-
-
-
-
   ;; Start Rebel and then start nREPL via custom `user` namespace
   ;; https://figwheel.org/docs/vim.html
 
@@ -61,7 +53,7 @@
   ;; clojure-connect-cljs and select figwheel-main | dev build tries to start the dev build
   ;; so should not start the figwheel build in the `user` namespace (or write a custom connect type for cider)
 
-  :repl/figwheel
+  :repl/figwheel-rebel
   {:extra-paths ["src" "resources" "test" "target"]
    :extra-deps
    {;; org.clojure/clojure {:mvn/version "1.11.1"}
@@ -73,6 +65,20 @@
     cider/cider-nrepl {:mvn/version "0.30.0"}
     cider/piggieback {:mvn/version "0.5.3"}}
    :main-opts ["-m" "rebel-readline.main"]}
+
+  :repl/figwheel
+  {:extra-deps {org.clojure/clojurescript {:mvn/version "1.11.54"}
+                nrepl/nrepl {:mvn/version "1.0.0"}
+                cider/cider-nrepl {:mvn/version "0.39.0"}
+                cider/piggieback {:mvn/version "0.5.3"}}
+   ;; com.bhauman/rebel-readline-cljs {:mvn/version "0.1.4"}}
+   ;; Optionally add figwheel-main and rebel readline libraries
+   :main-opts ["-m" "nrepl.cmdline"
+               "--middleware [cider.nrepl/cider-middleware,cider.piggieback/wrap-cljs-repl]]"
+               "--interactive"]}
+
+  ;; add figwheel-main main-opts
+  ;;  "-f" "rebel-readline.cljs.main/-main"
 
   :repl/cljs-figwheel
   {:extra-deps {org.clojure/clojurescript {:mvn/version "1.11.60"}
@@ -105,4 +111,5 @@
     "--interactive"
     "-f" "rebel-readline.cljs.main/-main"]}
 
-  #_()}}
+  :end/aliases {}}
+ :end/config {}}
