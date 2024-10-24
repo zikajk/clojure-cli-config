@@ -2,6 +2,95 @@
 
 * Unreleased
 
+
+** Updated
+- dev: megalinter v8.1.0 supports Grafana dashboards in flavors
+- dev: lychee spell config file for megalinter workflow
+
+* 2024-09-09
+** Added
+- dev: megalinter-upgrade task to upgrade config
+- dev: megalinter grafana dashboard connections via github organization secrets
+
+** Updated
+   - dev: update megalinter config to version 8
+   - dev: update to clj-kondo 2024.08.29 in quality-checks workflow
+   - lib: practicalli project templates release 2024-09-09
+   - Update library versions using `make outdated`
+
+   | :name                                   | :current  | :latest |
+   |----------------------------------------|-----------|-----------|
+   | cider/cider-nrepl                       | 0.49.2     | 0.50.2   |
+   | com.github.flow-storm/clojure           | 1.11.4     | 1.12.0   |
+   | com.github.flow-storm/flow-storm-dbg    | 3.16.0     | 3.17.3   |
+   | com.github.liquidz/antq                 | 2.8.1206   | 2.9.1227 |
+   | com.github.seancorfield/clj-new         | 1.2.404    | 1.3.415  |
+   | com.h2database/h2                       | 2.3.230    | 2.3.232  |
+   | djblue/portal                           | 0.57.1     | 0.57.3   |
+   | io.github.seancorfield/deps-new         | v0.7.1     | v0.8.0   |
+   | nrepl/nrepl                             | 1.2.0      | 1.3.0    |
+   | org.slf4j/slf4j-nop                     | 2.0.13     | 2.0.16   |
+
+* 2024-08-04
+** Updated
+   - dev: quality check library update clj-kondo/clj-kondo 2024.08.01
+   - Update library versions using `make outdated`
+
+   | :name                                    | :current                                 | :latest                                  |
+   +------------------------------------------+------------------------------------------+------------------------------------------|
+   | cider/cider-nrepl                        | 0.49.1                                   | 0.49.2                                   |
+   | com.github.flow-storm/clojure            | 1.11.3-1                                 | 1.11.4                                   |
+   | com.github.flow-storm/flow-storm-dbg     | 3.16.0                                   | 3.17.1                                   |
+   | com.github.liquidz/antq                  | 2.8.1201                                 | 2.8.1206                                 |
+   | com.h2database/h2                        | 2.2.224                                  | 2.3.230                                  |
+   | djblue/portal                            | 0.56.0                                   | 0.57.1                                   |
+   | org.clojure/tools.deps.graph             | 1.1.84                                   | 1.1.90                                   |
+
+* 2024-07-17
+** Updated
+   - alias: project templates update to clojure 1.10.3
+   - Update library versions using `make outdated`
+   | :name                                | :current                                 | :latest                                  |
+   +--------------------------------------+------------------------------------------+------------------------------------------|
+   | cider/cider-nrepl                    | 0.47.1                                   | 0.49.1                                   |
+   | clojurians-zulip/feeds               | 4bf8109afc5cd5ab2f409151d4dd583644028b4a | d7e9deaec0b492998e20dee7735e0ad31d83e246 |
+   | com.github.flow-storm/flow-storm-dbg | 3.15.5                                   | 3.16.0                                   |
+   | com.github.seancorfield/next.jdbc    | 1.3.925                                  | 1.3.939                                  |
+   | djblue/portal                        | 0.55.1                                   | 0.56.0                                   |
+   | io.github.nextjournal/clerk          | 0.15.957                                 | 0.16.1016                                |
+   | io.github.seancorfield/deps-new      | v0.7.0                                   | v0.7.1                                   |
+   | lambdaisland/kaocha                  | 1.89.1380                                | 1.91.1392                                |
+   | nrepl/nrepl                          | 1.1.1                                    | 1.2.0                                    |
+
+
+2024-05-07
+** Added
+   - dev: add `deps-deprecated.edn` to cljstyle `:ignore` rule
+   - dev: add `CHANGELOG.org` to Git ignore inclusive patterns
+   - alias: add `:lib/clojurestorm` to run Flowstorm debugger with ClojureStorm compiler
+
+** Updated
+   - Update library versions using `make outdated`
+   | :name                                    | :current                                 | :latest                                  |
+   |------------------------------------------+------------------------------------------+------------------------------------------|
+   | athos/clj-check                          | 518d5a1cbfcd7c952f548e6dbfcb9a4a5faf9062 | d997df866b2a04b7ce7b17533093ee0a2e2cb729 |
+   | cider/cider-nrepl                        | 0.45.0                                   | 0.47.1                                   |
+   | com.github.liquidz/antq                  | 2.8.1173                                 | 2.8.1201                                 |
+   | com.github.seancorfield/next.jdbc        | 1.3.909                                  | 1.3.925                                  |
+   | djblue/portal                            | 0.51.1                                   | 0.55.1                                   |
+   | lambdaisland/kaocha                      | 1.87.1366                                | 1.89.1380                                |
+   | nrepl/nrepl                              | 1.1.0                                    | 1.1.1                                    |
+   | org.clojure/tools.namespace              | 1.4.5                                    | 1.5.0                                    |
+   | org.clojure/tools.trace                  | 0.7.11                                   | 0.8.0                                    |
+   | org.slf4j/slf4j-nop                      | 2.0.12                                   | 2.0.13                                   |
+   | refactor-nrepl/refactor-nrepl            | 3.9.1                                    | 3.10.0                                   |
+   | zprint/zprint                            | 1.2.8                                    | 1.2.9                                    |
+
+
+* 2024-04-20
+** Updated
+   - alias: project/create latest practicalli project-template release
+
 * 2024-02-16
 ** Changed
    - health: remove FUNDING.yaml and use Practicalli Org file
