@@ -502,7 +502,7 @@
   ;; Flowstorm, a tracing debugger
   ;; https://github.com/jpmonettas/flow-storm-debugger
   :lib/flowstorm
-  {:extra-deps {com.github.jpmonettas/flow-storm-dbg {:mvn/version "3.7.5"}}}
+  {:extra-deps {com.github.jpmonettas/flow-storm-dbg {:mvn/version "4.0.0-alpha-2"}}}
 
   ;; End of Debug Tools
   ;; ---------------------------------------------------
@@ -747,7 +747,10 @@
    :main-opts  ["--main" "tubular.core"
                 "-p" "55555"]}
   ;; ---------------------------------------------------
-
+  ;; Stratify - visualizing Structure of Clojure Codebases
+  :stratify
+  {:extra-deps {io.github.dundalek/stratify {:git/tag "v0.2.0" :git/sha "85fcdee"}}
+   :main-opts ["-m" "stratify.main"]}
   ;; Format tool friendly way to highlight end of configuration sections
   :end/aliases {}}
  :end/config {}}
