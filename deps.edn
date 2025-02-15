@@ -504,7 +504,7 @@
   ;; Flowstorm, a tracing debugger
   ;; https://github.com/jpmonettas/flow-storm-debugger
   :lib/flowstorm
-  {:extra-deps {com.github.jpmonettas/flow-storm-dbg {:mvn/version "4.0.0-alpha-2"}}}
+  {:extra-deps {com.github.jpmonettas/flow-storm-dbg {:mvn/version "4.1.2"}}}
 
   ;; Suggested FlowStorm approach.
   ;; Use patched Clojure compiler which instruments all evaluations
@@ -512,7 +512,7 @@
   :lib/clojurestorm
   {:classpath-overrides {org.clojure/clojure nil}
    :extra-deps {com.github.flow-storm/clojure {:mvn/version "1.12.0"}
-                com.github.flow-storm/flow-storm-dbg {:mvn/version "4.0.0-alpha2"}}
+                com.github.flow-storm/flow-storm-dbg {:mvn/version "4.1.2"}}
    ;; Optionally add jvm-opt to manage instrumentation:
    ;; -Dclojure.storm.instrumentOnlyPrefixes=YOUR_INSTRUMENTATION_STRING"
    :jvm-opts ["-Dclojure.storm.instrumentEnable=true"]}
