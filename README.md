@@ -37,6 +37,8 @@ The project also contains
 
 [Practicalli Clojure book discusses Clojure CLI and its use](https://practical.li/clojure/clojure-cli/repl/), along with video walk-through of the key features.
 
+[Practicalli Clojure CLI logo](https://github.com/practicalli/graphic-design/blob/live/logos/practicalli-clojure-cli-logo.png?raw=true)
+
 
 [![License CC By SA 4.0](https://img.shields.io/badge/license-CC%20BY--SA%204.0%20-blueviolet)](http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1)
 [![GitHub Sponsors for practicalli-john](https://img.shields.io/github/sponsors/practicalli-johnny)](https://github.com/sponsors/practicalli-johnny)
@@ -82,7 +84,7 @@ The project also contains
 [Clojure CLI](https://clojure.org/guides/install_clojure) version **1.11.1.xxxx** or later is recommended. Check the version of Clojure CLI currently installed via:
 
 ```shell
-clojure -Sdescribe
+clojure --version
 ```
 
 > [Practicalli guide to installing Clojure](https://practical.li/clojure/install/clojure-cli/) has detailed instructions to install Clojure CLI for a specific operating system, or follow the [Clojure.org Getting Started page](https://clojure.org/guides/getting_started).
@@ -156,7 +158,7 @@ How to run common tasks for Clojure development.
 | Run the project  (clojure.main)                    | `clojure -M -m domain.main-namespace`                    | Built-in      |
 | Check library dependencies for newer versions      | `clojure -T:search/outdated`                             | Practicalli   |
 | Download dependencies                              | `clojure -P`  (followed by optional aliases)             | Built-in      |
-| Generate image of project dependency graph         | `clojure -T:project/graph-deps`                          | Practicalli   |
+| Generate image of project dependency graph         | `clojure -T:graph/deps`                                  | Practicalli   |
 | Deploy library locally (~/.m2/repository)          | `clojure -X:deps mvn-install :jar '"project.jar"'`       | Built-in      |
 | Find library names (Clojars & Maven Central)       | `clojure -M:search/libraries qualified-library-names`    | Practicalli   |
 | Find available versions of a library               | `clojure -X:deps find-versions :lib domain/library-name` | Built-in      |
@@ -354,7 +356,7 @@ Tools to search through code and libraries
 * `-M:search/errors` [clj-check](https://github.com/athos/clj-check.git) - search each namespace and report compilation warnings and errors
 * `-M::search/unused-vars` [Carve](https://github.com/borkdude/carve) - search code for unused vars and remove them - optionally specifying paths `--opts '{:paths ["src" "test"]}'`
 * `-M:search/libraries` - [find-deps](https://github.com/hagmonk/find-deps) - fuzzy search Maven & Clojars and add deps to deps.edn
-* `-T:search/outdated` -  [liquidz/antq](https://github.com/liquidz/antq) - check for newer versions of libraries, updating `deps.edn` if `:update true` passed as argument
+* `-T:search/outdated` -  [liquidz/antq](https://github.com/liquidz/antq) - check for newer versions of libraries, updating `deps.edn` if `:upgrade true` passed as argument
 
 
 ### Searching library options
@@ -599,18 +601,18 @@ Web servers and other standalone services run with Clojure CLI
 
 ## Security
 
-> DEPRECATED: `:security/nvd`
-> Using clojure-nvd via an alias [checks for security issues in clojure-nvd and its dependencies as they merged into the classpath](https://github.com/practicalli/clojure-cli-config/pull/31).
->
-> The maintainer of clojure-nvd [suggested several ways to avoid classpath interference](https://github.com/rm-hull/nvd-clojure#avoiding-classpath-interference)
+`:security/nvd-scan` and `:security/ndv-fix` adds [clj-watson](https://github.com/clj-holmes/clj-watson) tool
 
-* `:service/nvd` - check library dependencies of a project against the [National Vulnerability Database](https://nvd.nist.gov/) using [nvd-clojure](https://github.com/rm-hull/nvd-clojure)
+The alias requires an [API Key to access the NIST National Vulnerability Database (NVD)](https://nvd.nist.gov/developers/request-an-api-key).
 
-| Command                                          | Description                                                        |
-|--------------------------------------------------|--------------------------------------------------------------------|
-| `clojure -T:security/nvd "" "$(clojure -Spath)"` | check all jar files on the class path for security vulnerabilities |
+`CLJ_WATSON_NVD_API_KEY` environment variable should be set to the value of the API Key, e.g via `.bashrc` or `.zshenv` file.
 
-> The first "" is required argument and can contain a filename to a json file of additional configuration.  The second argument, `"$(clojure -Spath)"`, passes the project classpath to be analysed as a string.
+| Command                        | Description                                                         |
+|------------------------------- | ------------------------------------------------------------------- |
+| `clojure -T:security/nvd-scan` | check all libraries on the class path for security vulnerabilities  |
+| `clojure -T:security/nvd-fix`  | update all libraries on the class path for security vulnerabilities |
+
+> [clj-watson-action](https://github.com/clj-holmes/clj-watson-action) can be used in a GitHub workflow to run security vulnerability checks
 
 
 ## Community activities

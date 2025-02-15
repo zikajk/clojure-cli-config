@@ -18,7 +18,7 @@
 # ------------------------------------------
 # .PHONY: ensures target used rather than matching file name
 # https://makefiletutorial.com/#phony
-.PHONY: all lint deps dist pre-commit-check repl test clean
+.PHONY: all clean  deps dist lint pre-commit-check repl test test-ci test-watch 
 
 # ------- Makefile Variables --------- #
 # run help if no target specified
@@ -29,10 +29,12 @@ OUTDATED_FILE := outdated-$(shell date +%y-%m-%d-%T).org
 # Column the target description is printed from
 HELP-DESCRIPTION-SPACING := 24
 
-MEGALINTER_RUNNER = npx mega-linter-runner --flavor java --env "'MEGALINTER_CONFIG=.github/config/megalinter.yaml'" --remove-container
-
 # Makefile file and directory name wildcard
 # EDN-FILES := $(wildcard *.edn)
+
+# Tool variables
+# MEGALINTER_RUNNER = npx mega-linter-runner --flavor documentation --env "'MEGALINTER_CONFIG=.github/config/megalinter.yaml'" --remove-container
+MEGALINTER_RUNNER = npx mega-linter-runner --flavor java --env "'MEGALINTER_CONFIG=.github/config/megalinter.yaml'" --remove-container
 # ------------------------------------ #
 
 # ------- Help ----------------------- #
@@ -44,14 +46,36 @@ help:  ## Describe available tasks in Makefile
 	awk -F ':.*?## ' 'NF==2 {printf "\033[36m  %-$(HELP-DESCRIPTION-SPACING)s\033[0m %s\n", $$1, $$2}'
 # ------------------------------------ #
 
-# ------- Clojure Development -------- #
-repl:  ## Run Clojure REPL with rich terminal UI (Rebel Readline)
+# ------- Clojure Projects -------- #
+project-service:  ## New project with practicalli/service template
+	$(info --------- Create Service Project ---------)
+	clojure -T:project/create :template practicalli/service :name practicalli/gameboard
+
+project-service-donut:  ## New project with practicalli/service template & Donut
+	$(info --------- Create Service Project with Donut ---------)
+	clojure -T:project/create :template practicalli/service :name practicalli/gameboard :target-dir gameboard-donut
+
+project-service-integrant:  ## New project with practicalli/service template & Integrant
+	$(info --------- Create Service Project with Integrant ---------)
+	clojure -T:project/create :template practicalli/service :name practicalli/gameboard :target-dir gameboard-integrant
+
+landing-page-local:  ## New project with practicalli/landing-page template local
 	$(info --------- Run Rebel REPL ---------)
-	clojure -M:test/env:repl/reloaded
+	clojure -T:project/create-local :template practicalli/landing-page :name practicalli/landing-page-local
+
+landing-page:  ## New project with practicalli/landing-page template local
+	$(info --------- Run Rebel REPL ---------)
+	clojure -T:project/create :template practicalli/landing-page :name practicalli/landing-page
 
 outdated: ## Check deps.edn & GitHub actions for new versions
 	$(info --------- Search for outdated libraries ---------)
 	- clojure -T:search/outdated > $(OUTDATED_FILE)
+
+# ------- Clojure Workflow -------- #
+repl:  ## Run Clojure REPL with rich terminal UI (Rebel Readline)
+	$(info --------- Run Rebel REPL ---------)
+	clojure -M:test/env:repl/reloaded
+
 
 # deps: deps.edn  ## Prepare dependencies for test and dist targets
 #		$(info --------- Download test and service libraries ---------)
@@ -64,39 +88,40 @@ outdated: ## Check deps.edn & GitHub actions for new versions
 # `-` before the command ignores any errors returned
 clean:  ## Clean build temporary files
 	$(info --------- Clean Clojure classpath cache ---------)
-	- rm -rf ./.cpcache .clj-kondo .lsp
+	- rm -rf ./.cpcache ./.clj-kondo ./.lsp
 # ------------------------------------ #
 
 # ------- Testing -------------------- #
-# test-config:  ## Print Kaocha test runner configuration
-#			$(info --------- Runner Configuration ---------)
-#			clojure -M:test/env:test/run --print-config
+test-config:  ## Print Kaocha test runner configuration
+		$(info --------- Runner Configuration ---------)
+		clojure -M:test/env:test/run --print-config
 
-# test-profile:  ## Profile unit test speed, showing 3 slowest tests
-#			$(info --------- Runner Profile Tests ---------)
-#			clojure -M:test/env:test/run --plugin  kaocha.plugin/profiling
+test-profile:  ## Profile unit test speed, showing 3 slowest tests
+		$(info --------- Runner Profile Tests ---------)
+		clojure -M:test/env:test/run --plugin  kaocha.plugin/profiling
 
-# test:  ## Run unit tests - stoping on first error
-#			$(info --------- Runner for unit tests ---------)
-#			clojure -X:test/env:test/run
+test:  ## Run unit tests - stoping on first error
+		$(info --------- Runner for unit tests ---------)
+		clojure -X:test/env:test/run
 
-# test-all:  ## Run all unit tests regardless of failing tests
-#			$(info --------- Runner for all unit tests ---------)
-#			clojure -X:test/env:test/run :fail-fast? false
+test-all:  ## Run all unit tests regardless of failing tests
+		$(info --------- Runner for all unit tests ---------)
+		clojure -X:test/env:test/run :fail-fast? false
 
-# test-watch:  ## Run tests when changes saved, stopping test run on first error
-#			$(info --------- Watcher for unit tests ---------)
-#			clojure -X:test/env:test/run :watch? true
+test-watch:  ## Run tests when changes saved, stopping test run on first error
+		$(info --------- Watcher for unit tests ---------)
+		clojure -X:test/env:test/run :watch? true
 
-# test-watch-all:  ## Run all tests when changes saved, regardless of failing tests
-#			$(info --------- Watcher for unit tests ---------)
-#			clojure -X:test/env:test/run :fail-fast? false :watch? true
+test-watch-all:  ## Run all tests when changes saved, regardless of failing tests
+		$(info --------- Watcher for unit tests ---------)
+		clojure -X:test/env:test/run :fail-fast? false :watch? true
+
 # ------------------------------------ #
 
 # -------- Build tasks --------------- #
-# build-config: ## Pretty print build configuration
-#		$(info --------- View current build config ---------)
-#		clojure -T:build config
+build-config: ## Pretty print build configuration
+	$(info --------- View current build config ---------)
+	clojure -T:build config
 
 # build-jar: ## Build a jar archive of Clojure project
 #		$(info --------- Build library jar ---------)
@@ -106,9 +131,10 @@ clean:  ## Clean build temporary files
 #		$(info --------- Build service Uberjar  ---------)
 #		clojure -T:build uberjar
 
-# build-clean: ## Clean build assets or given directory
-#		$(info --------- Clean Build  ---------)
-#		clojure -T:build clean
+build-clean: ## Clean build assets or given directory
+	$(info --------- Clean Build  ---------)
+	clojure -T:build clean
+
 # ------------------------------------ #
 
 # ------- Code Quality --------------- #
@@ -126,7 +152,7 @@ lint:  ## Run MegaLinter with custom configuration (node.js required)
 	$(info --------- MegaLinter Runner ---------)
 	$(MEGALINTER_RUNNER)
 
-lint-fix:  ## Run MegaLinter with custom configuration (node.js required)
+lint-fix:  ## Run MegaLinter with applied fixes and custom configuration (node.js required)
 	$(info --------- MegaLinter Runner ---------)
 	$(MEGALINTER_RUNNER) --fix
 
@@ -140,17 +166,18 @@ megalinter-upgrade:  ## Upgrade MegaLinter config to latest version
 # ------------------------------------ #
 
 # ------- Docker Containers ---------- #
-# docker-build:  ## Build Clojure Service with docker compose
+# docker-build:  ## Build Clojure project and run with docker compose
 #		$(info --------- Docker Compose Build ---------)
-#		docker compose up --build
+#		docker compose up --build --detach
 
-# docker-build-clean:  ## Build Clojure Service with docker compose, removing orphans
+# docker-build-clean:  ## Build Clojure project and run with docker compose, removing orphans
 #		$(info --------- Docker Compose Build - remove orphans ---------)
-#		docker compose up --build --remove-orphans
+#		docker compose up --build --remove-orphans --detach
 
-# docker-down:  ## Shut down Clojure service using docker compose
+# docker-down:  ## Shut down containers in docker compose
 #		$(info --------- Docker Compose Down ---------)
-#		docker-compose down
+#		docker compose down
+
 
 # swagger-editor:  ## Start Swagger Editor in Docker
 #		$(info --------- Run Swagger Editor at locahost:8282 ---------)
@@ -172,6 +199,7 @@ megalinter-upgrade:  ## Upgrade MegaLinter config to latest version
 
 # Run tests, build & package the Clojure code and clean up afterward
 # `make all` used in Docker builder stage
-# .DELETE_ON_ERROR:
-# all: test-ci dist clean  ## Call test-ci dist and clean targets, used for CI
+.DELETE_ON_ERROR:
+all: test-ci dist clean  ## Call test-ci dist and clean targets, used for CI
+
 # ------------------------------------ #
